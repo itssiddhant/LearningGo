@@ -1,4 +1,4 @@
-package main
+package database
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func main() {
+func Connect() *gorm.DB {
 
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -34,5 +34,5 @@ func main() {
 		log.Fatalf("Failed to migrate database schema: %v", err)
 	}
 	fmt.Println("Successfull connection and migration!")
-
+	return db
 }

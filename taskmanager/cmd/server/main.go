@@ -1,18 +1,14 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"github.com/itssiddhant/taskmanager/internal/database"
+	"github.com/itssiddhant/taskmanager/internal/routes"
 )
 
 func main() {
+	db := database.Connect()
 	r := gin.Default()
-
-	r.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Ok",
-		})
-	})
-	r.Run()
+	routes.RegisterAuthRoutes(r, db)
+	r.Run(":8080")
 }
