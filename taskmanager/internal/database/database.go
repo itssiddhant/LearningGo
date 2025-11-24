@@ -29,7 +29,7 @@ func Connect() *gorm.DB {
 		panic(err)
 	}
 	fmt.Printf("Successfully Connected to DB")
-	err = db.AutoMigrate(&models.User{})
+	err = db.AutoMigrate(&models.User{}, &models.Task{})
 	if err != nil {
 		log.Fatalf("Failed to migrate database schema: %v", err)
 	}

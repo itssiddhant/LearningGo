@@ -10,5 +10,6 @@ func main() {
 	db := database.Connect()
 	r := gin.Default()
 	routes.RegisterAuthRoutes(r, db)
+	routes.RegisterTaskRoutes(r, db)
 	r.Run(":8080")
 }

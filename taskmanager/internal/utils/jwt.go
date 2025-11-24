@@ -7,14 +7,18 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var jwtSecret = []byte(getJWTSecret())
+const defaultJWTSecret = "abracadabra" // override via JWT_SECRET env
 
-func getJWTSecret() string {
+func getJWTSecretValue() string {
 	secret := os.Getenv("JWT_SECRET")
 	if secret == "" {
-		return "abracadabra" // will be changed in production
+		return defaultJWTSecret
 	}
 	return secret
+}
+
+func GetJWTSecret() []byte {
+	return []byte(getJWTSecretValue())
 }
 
 type Claims struct {
@@ -37,7 +41,7 @@ func GenerateToken(userID uint, email string) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString(jwtSecret)
+	tokenString, err := token.SignedString(GetJWTSecret())
 	if err != nil {
 		return "", err
 	}
