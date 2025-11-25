@@ -1,15 +1,17 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"log"
+
 	"github.com/itssiddhant/taskmanager/internal/database"
-	"github.com/itssiddhant/taskmanager/internal/routes"
+	"github.com/itssiddhant/taskmanager/pkg/server"
 )
 
 func main() {
 	db := database.Connect()
-	r := gin.Default()
-	routes.RegisterAuthRoutes(r, db)
-	routes.RegisterTaskRoutes(r, db)
-	r.Run(":8080")
+
+	r := server.New(db)
+	if err := r.Run(":8080"); err != nil {
+		log.Fatalf("failed to start server: %v", err)
+	}
 }
